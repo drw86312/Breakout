@@ -50,6 +50,20 @@
 }
 
 -(void)collisionBehavior:(UICollisionBehavior *)behavior beganContactForItem:(id<UIDynamicItem>)item1 withItem:(id<UIDynamicItem>)item2 atPoint:(CGPoint)p
+{
+    UIView *firstItem = (UIView *)item1;
+    UIView *secondItem = (UIView *)item2;
+    if (firstItem.tag == 1)
+        {
+            firstItem.hidden = YES;
+            [self removeBlockAfterCollision:item1];
+    }
+
+    if (secondItem.tag == 1)
+    {
+        secondItem.hidden = YES;
+    }
+}
 
 
 -(IBAction)dragPaddle:(UIPanGestureRecognizer *)pan
@@ -93,6 +107,14 @@
     self.dynamicItemBehaviorBlock.allowsRotation = NO;
     self.dynamicItemBehaviorBlock.density = 1000;
     [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
+}
+
+-(void)removeBlockAfterCollision:(id<UIDynamicItem>)block
+{
+    [self.dynamicAnimator removeBehavior:self.collisionBehavior];
+    [self.collisionBehavior removeItem:block];
+    [self.dynamicAnimator addBehavior:self.collisionBehavior];
+
 }
 
 
