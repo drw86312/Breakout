@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E91367E192E7D3F00D4DC6C /* BallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E91367D192E7D3F00D4DC6C /* BallView.m */; };
 		0E913681192E891000D4DC6C /* BlockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E913680192E891000D4DC6C /* BlockView.m */; };
+		0E9136CA192FFFA400D4DC6C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9136C9192FFFA400D4DC6C /* QuartzCore.framework */; };
 		0EE0A13C192E786B00296080 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EE0A13B192E786B00296080 /* Foundation.framework */; };
 		0EE0A13E192E786B00296080 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EE0A13D192E786B00296080 /* CoreGraphics.framework */; };
 		0EE0A140192E786B00296080 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EE0A13F192E786B00296080 /* UIKit.framework */; };
@@ -41,6 +42,7 @@
 		0E91367D192E7D3F00D4DC6C /* BallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BallView.m; sourceTree = "<group>"; };
 		0E91367F192E891000D4DC6C /* BlockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockView.h; sourceTree = "<group>"; };
 		0E913680192E891000D4DC6C /* BlockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockView.m; sourceTree = "<group>"; };
+		0E9136C9192FFFA400D4DC6C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0EE0A138192E786B00296080 /* Breakout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Breakout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EE0A13B192E786B00296080 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0EE0A13D192E786B00296080 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E9136CA192FFFA400D4DC6C /* QuartzCore.framework in Frameworks */,
 				0EE0A13E192E786B00296080 /* CoreGraphics.framework in Frameworks */,
 				0EE0A140192E786B00296080 /* UIKit.framework in Frameworks */,
 				0EE0A13C192E786B00296080 /* Foundation.framework in Frameworks */,
@@ -110,6 +113,7 @@
 		0EE0A13A192E786B00296080 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E9136C9192FFFA400D4DC6C /* QuartzCore.framework */,
 				0EE0A13B192E786B00296080 /* Foundation.framework */,
 				0EE0A13D192E786B00296080 /* CoreGraphics.framework */,
 				0EE0A13F192E786B00296080 /* UIKit.framework */,
