@@ -30,7 +30,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3zv-6F-6TU" customClass="PaddleView">
-                                <rect key="frame" x="9" y="551" width="291" height="10"/>
+                                <rect key="frame" x="0.0" y="543" width="320" height="22"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.52566011999999995" green="0.89129035300000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>

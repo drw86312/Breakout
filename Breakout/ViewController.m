@@ -13,7 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ViewController () <UICollisionBehaviorDelegate, UIAlertViewDelegate>
-@property (weak, nonatomic) IBOutlet PaddleView *paddleView;
+@property (strong, nonatomic) IBOutlet PaddleView *paddleView;
 @property (strong, nonatomic) BallView *ballView;
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property UIDynamicAnimator *dynamicAnimator;
@@ -28,13 +28,13 @@
 @property (strong, nonatomic) UIAlertView *lossAlert;
 @property (strong, nonatomic) UIAlertView *winAlert;
 @property (strong, nonatomic) UIAlertView *beatGameAlert;
-
-
+@property CGFloat ballDensity;
 
 @end
 
 @implementation ViewController
 
+// Sets up collision behavior for the paddleView
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -43,7 +43,7 @@
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.paddleView]];
 
     self.dynamicItemBehaviorPaddle = [[UIDynamicItemBehavior alloc] initWithItems:@[self.paddleView]];
-    self.dynamicItemBehaviorPaddle.density = 1000;
+    self.dynamicItemBehaviorPaddle.density = 1000000;
     self.dynamicItemBehaviorPaddle.allowsRotation = NO;
     [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorPaddle];
 
@@ -59,11 +59,11 @@
 
     self.startButtonPressed = NO;
     self.level = 1;
+    self.ballDensity = 5.0;
     self.blocksArray = [[NSMutableArray alloc] init];
-    self.ballView.alpha = 0.0;
-
 }
 
+// The bottom of the screen has a boundary identifer "lower bound". When any object passes the boundary, the playerLoss helper method is called.
 -(void)collisionBehavior:(UICollisionBehavior *)behavior beganContactForItem:(id<UIDynamicItem>)item withBoundaryIdentifier:(id<NSCopying>)identifier atPoint:(CGPoint)p
 {
     NSString *currentbound = (NSString *)identifier;
@@ -77,46 +77,43 @@
     }
 }
 
+// When an item of type Ballview collides with an item of the type BlockView, the collided block is removed from the superview, the array of block objects, and its collision behavior is removed. When the array count falls below 1, the player has beat the level and the playerWin helper method is called. If the player, beats the 10th level, the game has been beaten and the playerBeatGame helper method is called.
 -(void)collisionBehavior:(UICollisionBehavior *)behavior beganContactForItem:(id<UIDynamicItem>)item1 withItem:(id<UIDynamicItem>)item2 atPoint:(CGPoint)p
 {
-    if ([item1 isKindOfClass:[BallView class]] && [item2 isKindOfClass:[BlockView class]])
-    {
-        BlockView *collidedBlock = (BlockView *)item2;
-        [self.blocksArray removeObject:collidedBlock];
-        [collidedBlock removeFromSuperview];
-        [self.collisionBehavior removeItem:collidedBlock];
 
-            if ([self.blocksArray objectAtIndex:0] == nil)
-            {
-                [self playerWinAlert];
-            }
-    }
-    else if ([item1 isKindOfClass:[BlockView class]] && [item2 isKindOfClass:[BallView class]]) {
+     if ([item1 isKindOfClass:[BlockView class]] && [item2 isKindOfClass:[BallView class]])
+     {
         BlockView *collidedBlock = (BlockView *)item1;
         [self.blocksArray removeObject:collidedBlock];
         [collidedBlock removeFromSuperview];
         [self.collisionBehavior removeItem:collidedBlock];
-        }
-            if ([self.blocksArray objectAtIndex:0] == nil) {
-                [self playerWinAlert];
-        }
+
+//        int blocks = self.blocksArray.count;
+//        NSString *BLOCKS = [NSString stringWithFormat:@"%d", blocks];
+//        NSLog(@"%@", BLOCKS);
+    }
+
+    if (self.blocksArray.count < 1 && self.level == 10)
+    {
+        [self playerBeatGameAlert];
+        NSLog(@"Beat Game!");
+    }
+    else if (self.blocksArray.count < 1)
+    {
+        [self playerWinAlert];
+        NSLog(@"Beat Level!");
+    }
 }
+#pragma  mark - IBActions
 
-
+// Adds pan gesture behavior so the player can move the paddle laterally, but not vertically.
 -(IBAction)dragPaddle:(UIPanGestureRecognizer *)pan
 {
     self.paddleView.center = CGPointMake([pan locationInView:self.view].x, self.paddleView.center.y);
     [self.dynamicAnimator updateItemUsingCurrentState:self.paddleView];
 }
 
--(void)reset
-
-{
-    [self createBlocksForLevel];
-    [self createBall];
-}
-
-
+// Calls the reset method and sets the button alpha to 0
 - (IBAction)onStartButtonPressed:(UIButton *)startbutton
 {
     self.startButtonPressed = !self.startButtonPressed;
@@ -126,8 +123,14 @@
     }
 }
 
-
 #pragma  mark - Helper methods
+
+// Resets the game by calling the createBall and createBlocksForLevel methods.
+-(void)reset
+{
+    [self createBlocksForLevel];
+    [self createBall];
+}
 
 // Creates the correct number of blocks for each respective level using a switch statement.
 
@@ -1154,7 +1157,6 @@ while (x < 40) {
     }
 }
 
-
 // Sets the rounded look of the ballView.
 -(void)setRoundedView:(BallView *)roundedView toDiameter:(float)newSize
 {
@@ -1165,24 +1167,15 @@ while (x < 40) {
     roundedView.center = saveCenter;
 }
 
-// Method called when player loses. Displays an alertview, removes any remaining blocks on the screen, and makes the start button visible.
+// Displays an alert showing the player lost. When alert view is dismissed, player replays the current level.
 -(void)playerLossAlert
 {
     self.lossAlert = [[UIAlertView alloc] initWithTitle:@"Oh No!" message:@"You Lost" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil, nil];
+
     [self.lossAlert show];
     [self removeAllBlocks];
-
-    self.pushBehavior.active = NO;
-    self.ballView.alpha = 0.0;
+    [self removeBall];
     self.startButton.alpha = 1.0;
-}
-
-// Enables 'start' button when player dismisses the alert view.
--(void)alertView:(UIAlertView *)alert1 didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        self.startButtonPressed = !self.startButtonPressed;
-    }
 }
 
 // Displays an alert showing the player beat the level and increments the level integer by 1.
@@ -1192,32 +1185,30 @@ while (x < 40) {
     self.winAlert = [[UIAlertView alloc] initWithTitle:@"Congratulations!" message:@"You Won" delegate:self cancelButtonTitle:@"Next Level" otherButtonTitles:nil, nil];
 
     [self.winAlert show];
-
-    [self removeAllBlocks];
-    [self.pushBehavior removeItem:self.ballView];
-    [self.dynamicAnimator removeBehavior:self.dynamicItemBehaviorBall];
-
-    self.pushBehavior.active = NO;
-    self.ballView.alpha = 0.0;
+    [self removeBall];
     self.startButton.alpha = 1.0;
     self.level = self.level + 1;
-    self.ballView.center = CGPointMake(160, 280);
+    self.ballDensity = self.ballDensity - 0.3;
 }
 
 // Displays an alert showing the player beat the game and sets the level back to 1.
 -(void)playerBeatGameAlert
 {
-
     self.beatGameAlert = [[UIAlertView alloc] initWithTitle:@"You beat the game!" message:@"You brick breakin' son of a bitch, you!" delegate:self cancelButtonTitle:@"Start Over" otherButtonTitles:nil, nil];
     [self.beatGameAlert show];
-    [self removeAllBlocks];
-    [self.pushBehavior removeItem:self.ballView];
-    [self.dynamicAnimator removeBehavior:self.dynamicItemBehaviorBall];
 
-    self.pushBehavior.active = NO;
-    self.ballView.alpha = 0.0;
+    [self removeAllBlocks];
+    [self removeBall];
     self.startButton.alpha = 1.0;
     self.level = 1;
+}
+
+// Enables 'start' button when player dismisses the alert view.
+-(void)alertView:(UIAlertView *)alert1 didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        self.startButtonPressed = !self.startButtonPressed;
+    }
 }
 
 // Removes all blocks from the superview and the blocksarray.
@@ -1233,6 +1224,7 @@ while (x < 40) {
     [self.dynamicAnimator removeBehavior:self.dynamicItemBehaviorBall];
 }
 
+// Creates a ball in the view when the game begins.
 -(void)createBall
 {
     self.ballView = [[BallView alloc] initWithFrame:CGRectMake(160, 280, 10, 10)];
@@ -1246,7 +1238,8 @@ while (x < 40) {
 
     self.dynamicItemBehaviorBall = [[UIDynamicItemBehavior alloc] initWithItems:@[self.ballView]];
     self.dynamicItemBehaviorBall.allowsRotation = NO;
-    self.dynamicItemBehaviorBall.density = 8;
+    self.dynamicItemBehaviorBall.angularResistance = 0.0;
+    self.dynamicItemBehaviorBall.density = self.ballDensity;
     self.dynamicItemBehaviorBall.elasticity = 1.0;
     self.dynamicItemBehaviorBall.friction = 0.0;
     self.dynamicItemBehaviorBall.resistance = 0.0;
@@ -1258,7 +1251,39 @@ while (x < 40) {
     self.pushBehavior.pushDirection = CGVectorMake(0.5, 0.5);
     [self.dynamicAnimator addBehavior:self.pushBehavior];
 
+    CGFloat density = self.ballDensity;
+    NSString *DENSITY = [NSString stringWithFormat:@"%f", density];
+    NSLog(@"%@", DENSITY);
 }
+
+// Removes the ball from the view when the game ends.
+-(void)removeBall
+{
+    [self.collisionBehavior removeItem:self.ballView];
+    [self.pushBehavior removeItem:self.ballView];
+    [self.dynamicAnimator removeBehavior:self.dynamicItemBehaviorBall];
+    [self.ballView removeFromSuperview];
+    self.pushBehavior.active = NO;
+    self.ballView.alpha = 0.0;
+    self.ballView.center = CGPointMake(160, 280);
+}
+
+//-(void)createPaddle
+//{
+//    self.paddleView = [[PaddleView alloc] initWithFrame:CGRectMake(110, 562, 100, 15)];
+//    self.paddleView.backgroundColor = [UIColor yellowColor];
+//    self.paddleView.tag = 0;
+//
+//    [self.view addSubview:self.paddleView];
+//
+//    [self.collisionBehavior addItem:self.paddleView];
+//
+//    self.dynamicItemBehaviorPaddle = [[UIDynamicItemBehavior alloc] initWithItems:@[self.paddleView]];
+//    self.dynamicItemBehaviorPaddle.allowsRotation = NO;
+//    self.dynamicItemBehaviorPaddle.density = 1000000;
+//    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorPaddle];
+//
+//}
 
 
 
