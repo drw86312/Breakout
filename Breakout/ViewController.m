@@ -13,7 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ViewController () <UICollisionBehaviorDelegate, UIAlertViewDelegate>
-@property (strong, nonatomic) IBOutlet PaddleView *paddleView;
+@property (strong, nonatomic) PaddleView *paddleView;
 @property (strong, nonatomic) BallView *ballView;
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property UIDynamicAnimator *dynamicAnimator;
@@ -29,6 +29,7 @@
 @property (strong, nonatomic) UIAlertView *winAlert;
 @property (strong, nonatomic) UIAlertView *beatGameAlert;
 @property CGFloat ballDensity;
+@property CGFloat paddleWidth;
 
 @end
 
@@ -40,12 +41,7 @@
     [super viewDidLoad];
 
     self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.paddleView]];
-
-    self.dynamicItemBehaviorPaddle = [[UIDynamicItemBehavior alloc] initWithItems:@[self.paddleView]];
-    self.dynamicItemBehaviorPaddle.density = 1000000;
-    self.dynamicItemBehaviorPaddle.allowsRotation = NO;
-    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorPaddle];
+    self.collisionBehavior = [[UICollisionBehavior alloc] init];
 
     self.dynamicItemBehaviorBlock = [[UIDynamicItemBehavior alloc] init];
     self.dynamicItemBehaviorBlock.density = 1000;
@@ -60,6 +56,7 @@
     self.startButtonPressed = NO;
     self.level = 1;
     self.ballDensity = 5.0;
+    self.paddleWidth = 150;
     self.blocksArray = [[NSMutableArray alloc] init];
 }
 
@@ -111,6 +108,9 @@
 {
     self.paddleView.center = CGPointMake([pan locationInView:self.view].x, self.paddleView.center.y);
     [self.dynamicAnimator updateItemUsingCurrentState:self.paddleView];
+
+//    self.paddleView.center = CGPointMake([pan locationInView:self.view].x, self.paddleView.center.y);
+//    [self.dynamicAnimator updateItemUsingCurrentState:self.paddleView];
 }
 
 // Calls the reset method and sets the button alpha to 0
@@ -130,6 +130,7 @@
 {
     [self createBlocksForLevel];
     [self createBall];
+    [self createPaddle];
 }
 
 // Creates the correct number of blocks for each respective level using a switch statement.
@@ -1175,6 +1176,7 @@ while (x < 40) {
     [self.lossAlert show];
     [self removeAllBlocks];
     [self removeBall];
+    [self removePaddle];
     self.startButton.alpha = 1.0;
 }
 
@@ -1186,9 +1188,11 @@ while (x < 40) {
 
     [self.winAlert show];
     [self removeBall];
+    [self removePaddle];
     self.startButton.alpha = 1.0;
     self.level = self.level + 1;
     self.ballDensity = self.ballDensity - 0.3;
+    self.paddleWidth = self.paddleWidth - 10;
 }
 
 // Displays an alert showing the player beat the game and sets the level back to 1.
@@ -1199,8 +1203,11 @@ while (x < 40) {
 
     [self removeAllBlocks];
     [self removeBall];
+    [self removePaddle];
     self.startButton.alpha = 1.0;
     self.level = 1;
+    self.ballDensity = 5.0;
+    self.paddleWidth = 150;
 }
 
 // Enables 'start' button when player dismisses the alert view.
@@ -1268,22 +1275,29 @@ while (x < 40) {
     self.ballView.center = CGPointMake(160, 280);
 }
 
-//-(void)createPaddle
-//{
-//    self.paddleView = [[PaddleView alloc] initWithFrame:CGRectMake(110, 562, 100, 15)];
-//    self.paddleView.backgroundColor = [UIColor yellowColor];
-//    self.paddleView.tag = 0;
-//
-//    [self.view addSubview:self.paddleView];
-//
-//    [self.collisionBehavior addItem:self.paddleView];
-//
-//    self.dynamicItemBehaviorPaddle = [[UIDynamicItemBehavior alloc] initWithItems:@[self.paddleView]];
-//    self.dynamicItemBehaviorPaddle.allowsRotation = NO;
-//    self.dynamicItemBehaviorPaddle.density = 1000000;
-//    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorPaddle];
-//
-//}
+-(void)createPaddle
+{
+    self.paddleView = [[PaddleView alloc] initWithFrame:CGRectMake(160 - (self.paddleWidth/2), 543, self.paddleWidth, 20)];
+    self.paddleView.backgroundColor = [UIColor orangeColor];
+    self.paddleView.tag = 0;
+
+    [self.view addSubview:self.paddleView];
+
+    [self.collisionBehavior addItem:self.paddleView];
+
+    self.dynamicItemBehaviorPaddle = [[UIDynamicItemBehavior alloc] initWithItems:@[self.paddleView]];
+    self.dynamicItemBehaviorPaddle.density = 100000;
+    self.dynamicItemBehaviorPaddle.allowsRotation = NO;
+    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorPaddle];
+}
+
+-(void)removePaddle
+{
+    [self.collisionBehavior removeItem:self.paddleView];
+    [self.dynamicAnimator removeBehavior:self.dynamicItemBehaviorPaddle];
+    [self.paddleView removeFromSuperview];
+    self.paddleView.alpha = 0.0;
+}
 
 
 

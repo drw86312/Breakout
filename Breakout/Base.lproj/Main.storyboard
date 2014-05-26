@@ -29,27 +29,21 @@
                                     <action selector="onStartButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ZG8-ra-GLx"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3zv-6F-6TU" customClass="PaddleView">
-                                <rect key="frame" x="0.0" y="543" width="320" height="22"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.52566011999999995" green="0.89129035300000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="oWF-c5-O4h" appends="YES" id="vK3-vF-wLC"/>
-                                </connections>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="L1L-uy-fVI" appends="YES" id="nBK-CG-2Y3"/>
+                        </connections>
                     </view>
                     <connections>
-                        <outlet property="paddleView" destination="3zv-6F-6TU" id="VaO-EN-tEL"/>
                         <outlet property="startButton" destination="c3x-Gk-ya3" id="YLg-1k-ePh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="oWF-c5-O4h">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="L1L-uy-fVI">
                     <connections>
-                        <action selector="dragPaddle:" destination="vXZ-lx-hvc" id="O8h-92-ioY"/>
+                        <action selector="dragPaddle:" destination="vXZ-lx-hvc" id="qee-ut-WLg"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
