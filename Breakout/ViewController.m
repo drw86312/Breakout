@@ -32,7 +32,6 @@
 @property NSInteger level;
 @property BOOL startButtonPressed;
 
-
 @end
 
 @implementation ViewController
@@ -70,16 +69,11 @@
     if ([currentbound isEqualToString:@"lower bound"]) {
         [self playerLossAlert];
     }
-    else
-    {
-
-    }
 }
 
 // When an item of type Ballview collides with an item of the type BlockView, the collided block is removed from the superview, the array of block objects, and its collision behavior is removed. When the array count falls below 1, the player has beat the level and the playerWin helper method is called. If the player, beats the 10th level, the game has been beaten and the playerBeatGame helper method is called.
 -(void)collisionBehavior:(UICollisionBehavior *)behavior beganContactForItem:(id<UIDynamicItem>)item1 withItem:(id<UIDynamicItem>)item2 atPoint:(CGPoint)p
 {
-
      if ([item1 isKindOfClass:[BlockView class]] && [item2 isKindOfClass:[BallView class]])
      {
         BlockView *collidedBlock = (BlockView *)item1;
@@ -106,9 +100,6 @@
 {
     self.paddleView.center = CGPointMake([pan locationInView:self.view].x, self.paddleView.center.y);
     [self.dynamicAnimator updateItemUsingCurrentState:self.paddleView];
-
-//    self.paddleView.center = CGPointMake([pan locationInView:self.view].x, self.paddleView.center.y);
-//    [self.dynamicAnimator updateItemUsingCurrentState:self.paddleView];
 }
 
 // Calls the reset method and sets the button and title alpha to 0
@@ -167,11 +158,9 @@
         case 10:
             [self createBlocks:100];
             break;
-
         default:
             break;
     }
-
 }
 
 
@@ -182,7 +171,7 @@
     CGFloat margin = 5;
     CGFloat x = 0;
     CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
+    CGFloat width = (self.view.frame.size.width - ((margin * blocksPerRow) + margin))/blocksPerRow;
     CGFloat lateralOffset = margin;
     CGFloat verticalOffset = margin;
 
@@ -199,13 +188,12 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+         x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
     while (x >= 10 && x < 20 && x < blocks) {
 
-        // Create a block
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         [blockView setImage:[UIImage imageNamed:@"brick2"]];
         blockView.tag = 1;
@@ -216,7 +204,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -232,7 +220,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -247,7 +235,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -262,7 +250,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -277,7 +265,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -292,7 +280,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -307,7 +295,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -322,7 +310,7 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
@@ -337,18 +325,8 @@
         [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
         [self.blocksArray addObject:blockView];
         lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
+        x += 1;
     }
-}
-
-// Sets the rounded look of the ballView.
--(void)setRoundedView:(BallView *)roundedView toDiameter:(float)newSize
-{
-    CGPoint saveCenter = roundedView.center;
-    CGRect newFrame = CGRectMake(roundedView.frame.origin.x, roundedView.frame.origin.y, newSize, newSize);
-    roundedView.frame = newFrame;
-    roundedView.layer.cornerRadius = newSize / 2.0;
-    roundedView.center = saveCenter;
 }
 
 // Displays an alert showing the player lost. When alert view is dismissed, player replays the current level.
@@ -377,14 +355,14 @@
     self.startButton.alpha = 1.0;
     self.gameTitle.alpha = 1.0;
     self.level = self.level + 1;
-    self.ballDensity = self.ballDensity - 0.1;
-    self.paddleWidth = self.paddleWidth - 10;
+    self.ballDensity = self.ballDensity - 0.08;
+    self.paddleWidth = self.paddleWidth - 8;
 }
 
 // Displays an alert showing the player beat the game and sets the level back to 1.
 -(void)playerBeatGameAlert
 {
-    self.beatGameAlert = [[UIAlertView alloc] initWithTitle:@"You beat the game!" message:@"You brick breakin' son of a bitch, you!" delegate:self cancelButtonTitle:@"Start Over" otherButtonTitles:nil, nil];
+    self.beatGameAlert = [[UIAlertView alloc] initWithTitle:@"You beat the game!" message:@"You brick breakin' son of a gun, you!" delegate:self cancelButtonTitle:@"Start Over" otherButtonTitles:nil, nil];
     [self.beatGameAlert show];
 
     [self removeAllBlocks];
@@ -421,10 +399,9 @@
 // Creates a ball in the view when the game begins.
 -(void)createBall
 {
-    self.ballView = [[BallView alloc] initWithFrame:CGRectMake(160, 280, 10, 10)];
+    self.ballView = [[BallView alloc] initWithFrame:CGRectMake(160, 280, 20, 20)];
     self.ballView.tag = 2;
     [self.ballView setImage:[UIImage imageNamed:@"ball"]];
-    [self setRoundedView:self.ballView toDiameter:25];
 
     [self.view addSubview:self.ballView];
 
@@ -462,7 +439,7 @@
 // Creates a paddle when the game begins.
 -(void)createPaddle
 {
-    self.paddleView = [[PaddleView alloc] initWithFrame:CGRectMake(160 - (self.paddleWidth/2), 543, self.paddleWidth, 20)];
+    self.paddleView = [[PaddleView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - (self.paddleWidth/2), self.view.frame.size.height - 25, self.paddleWidth, 20)];
     self.paddleView.backgroundColor = [UIColor redColor];
     self.paddleView.tag = 0;
 
