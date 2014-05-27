@@ -54,7 +54,7 @@
     [self.dynamicAnimator addBehavior:self.collisionBehavior];
 
     self.startButtonPressed = NO;
-    self.level = 1;
+    self.level = 7;
     self.ballDensity = 5.0;
     self.paddleWidth = 150;
     self.blocksArray = [[NSMutableArray alloc] init];
@@ -84,10 +84,6 @@
         [self.blocksArray removeObject:collidedBlock];
         [collidedBlock removeFromSuperview];
         [self.collisionBehavior removeItem:collidedBlock];
-
-//        int blocks = self.blocksArray.count;
-//        NSString *BLOCKS = [NSString stringWithFormat:@"%d", blocks];
-//        NSLog(@"%@", BLOCKS);
     }
 
     if (self.blocksArray.count < 1 && self.level == 10)
@@ -139,34 +135,35 @@
 {
     switch (self.level) {
         case 1:
-            [self createBlocks1];
+            [self createBlocks:10];
             break;
         case 2:
-            [self createBlocks2];
+            [self createBlocks:20];
+            NSLog(@"I ran");
             break;
         case 3:
-            [self createBlocks3];
+            [self createBlocks:30];
             break;
         case 4:
-            [self createBlocks4];
+            [self createBlocks:40];
             break;
         case 5:
-            [self createBlocks5];
+            [self createBlocks:50];
             break;
         case 6:
-            [self createBlocks6];
+            [self createBlocks:60];
             break;
         case 7:
-            [self createBlocks7];
+            [self createBlocks:70];
             break;
         case 8:
-            [self createBlocks8];
+            [self createBlocks:80];
             break;
         case 9:
-            [self createBlocks9];
+            [self createBlocks:90];
             break;
         case 10:
-            [self createBlocks10];
+            [self createBlocks:100];
             break;
 
         default:
@@ -175,39 +172,9 @@
 
 }
 
-// These methods are for creating blocks for each level.
--(void)createBlocks1
+
+-(void)createBlocks:(NSInteger) blocks
 {
-    NSInteger blocks = 10;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = 5;
-
-    while (x < blocks) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks2
-{
-    NSInteger blocks = 20;
     NSInteger blocksPerRow = blocks / self.level;
     CGFloat margin = 5;
     CGFloat x = 0;
@@ -216,7 +183,7 @@
     CGFloat lateralOffset = margin;
     CGFloat verticalOffset = margin;
 
-    while (x < 10) {
+    while (x < 10 && x < blocks) {
 
         // Create a block
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
@@ -233,35 +200,7 @@
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks3
-{
-    NSInteger blocks = 30;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
+    while (x >= 10 && x < 20 && x < blocks) {
 
         // Create a block
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
@@ -278,161 +217,7 @@
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
-    {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks4
-{
-NSInteger blocks = 40;
-NSInteger blocksPerRow = blocks / self.level;
-CGFloat margin = 5;
-CGFloat x = 0;
-CGFloat height = 20;
-CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-CGFloat lateralOffset = margin;
-CGFloat verticalOffset = margin;
-
-while (x < 10) {
-
-    // Create a block
-    BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-    blockView.backgroundColor = [UIColor greenColor];
-    blockView.tag = 1;
-
-    [self.view addSubview:blockView];
-    [self.collisionBehavior addItem:blockView];
-    [self.dynamicItemBehaviorBlock addItem:blockView];
-    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-    [self.blocksArray addObject:blockView];
-    lateralOffset = lateralOffset + width + margin;
-    x = x + 1;
-}
-lateralOffset = margin;
-verticalOffset = verticalOffset + margin + height;
-while (x < 20) {
-
-    // Create a block
-    BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-    blockView.backgroundColor = [UIColor greenColor];
-    blockView.tag = 1;
-
-    [self.view addSubview:blockView];
-    [self.collisionBehavior addItem:blockView];
-    [self.dynamicItemBehaviorBlock addItem:blockView];
-    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-    [self.blocksArray addObject:blockView];
-    lateralOffset = lateralOffset + width + margin;
-    x = x + 1;
-}
-lateralOffset = margin;
-verticalOffset = verticalOffset + margin + height;
-while (x < 30)
-{
-    BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-    blockView.backgroundColor = [UIColor greenColor];
-    blockView.tag = 1;
-
-    [self.view addSubview:blockView];
-    [self.collisionBehavior addItem:blockView];
-    [self.dynamicItemBehaviorBlock addItem:blockView];
-    [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-    [self.blocksArray addObject:blockView];
-    lateralOffset = lateralOffset + width + margin;
-    x = x + 1;
-    }
-lateralOffset = margin;
-verticalOffset = verticalOffset + margin + height;
-while (x < 40) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks5
-{
-    NSInteger blocks = 50;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
+    while (x >= 20 && x < 30 && x < blocks)
     {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
@@ -448,7 +233,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 40) {
+    while (x >= 30 && x < 40 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -463,35 +248,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 50) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks6
-{
-    NSInteger blocks = 60;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
-
-        // Create a block
+    while (x >= 40 && x < 50 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -506,9 +263,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
+    while (x >= 50 && x < 60 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -523,8 +278,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
-    {
+    while (x >= 60 && x < 70 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -539,7 +293,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 40) {
+    while (x >= 70 && x < 80 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -554,7 +308,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 50) {
+    while (x >= 80 && x < 90 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -569,581 +323,7 @@ while (x < 40) {
     }
     lateralOffset = margin;
     verticalOffset = verticalOffset + margin + height;
-    while (x < 60) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks7
-{
-    NSInteger blocks = 70;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
-    {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 40) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 50) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 60) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 70) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks8
-{
-    NSInteger blocks = 80;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
-    {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 40) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 50) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 60) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 70) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 80) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks9
-{
-    NSInteger blocks = 90;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
-    {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 40) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 50) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 60) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 70) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 80) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 90) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-}
-
--(void)createBlocks10
-{
-    NSInteger blocks = 100;
-    NSInteger blocksPerRow = blocks / self.level;
-    CGFloat margin = 5;
-    CGFloat x = 0;
-    CGFloat height = 20;
-    CGFloat width = (320 - ((margin * blocksPerRow) + margin))/blocksPerRow;
-    CGFloat lateralOffset = margin;
-    CGFloat verticalOffset = margin;
-
-    while (x < 10) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 20) {
-
-        // Create a block
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 30)
-    {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 40) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 50) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 60) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 70) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 80) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 90) {
-        BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
-        blockView.tag = 1;
-
-        [self.view addSubview:blockView];
-        [self.collisionBehavior addItem:blockView];
-        [self.dynamicItemBehaviorBlock addItem:blockView];
-        [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorBlock];
-        [self.blocksArray addObject:blockView];
-        lateralOffset = lateralOffset + width + margin;
-        x = x + 1;
-    }
-    lateralOffset = margin;
-    verticalOffset = verticalOffset + margin + height;
-    while (x < 100) {
+    while (x >= 90 && x < 100 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
         blockView.backgroundColor = [UIColor greenColor];
         blockView.tag = 1;
@@ -1258,9 +438,6 @@ while (x < 40) {
     self.pushBehavior.pushDirection = CGVectorMake(0.5, 0.5);
     [self.dynamicAnimator addBehavior:self.pushBehavior];
 
-    CGFloat density = self.ballDensity;
-    NSString *DENSITY = [NSString stringWithFormat:@"%f", density];
-    NSLog(@"%@", DENSITY);
 }
 
 // Removes the ball from the view when the game ends.
