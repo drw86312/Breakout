@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BlockView : UIView
+@interface BlockView : UIImageView
 
 
 @end

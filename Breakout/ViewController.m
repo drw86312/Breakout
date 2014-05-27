@@ -13,23 +13,25 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ViewController () <UICollisionBehaviorDelegate, UIAlertViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *gameTitle;
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property (strong, nonatomic) PaddleView *paddleView;
 @property (strong, nonatomic) BallView *ballView;
-@property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property UIDynamicAnimator *dynamicAnimator;
 @property UIPushBehavior *pushBehavior;
 @property UICollisionBehavior *collisionBehavior;
 @property UIDynamicItemBehavior *dynamicItemBehaviorBall;
 @property UIDynamicItemBehavior *dynamicItemBehaviorPaddle;
 @property UIDynamicItemBehavior *dynamicItemBehaviorBlock;
-@property BOOL startButtonPressed;
 @property (strong, nonatomic) NSMutableArray *blocksArray;
-@property NSInteger level;
 @property (strong, nonatomic) UIAlertView *lossAlert;
 @property (strong, nonatomic) UIAlertView *winAlert;
 @property (strong, nonatomic) UIAlertView *beatGameAlert;
 @property CGFloat ballDensity;
 @property CGFloat paddleWidth;
+@property NSInteger level;
+@property BOOL startButtonPressed;
+
 
 @end
 
@@ -54,8 +56,8 @@
     [self.dynamicAnimator addBehavior:self.collisionBehavior];
 
     self.startButtonPressed = NO;
-    self.level = 7;
-    self.ballDensity = 5.0;
+    self.level = 1;
+    self.ballDensity = 2.5;
     self.paddleWidth = 150;
     self.blocksArray = [[NSMutableArray alloc] init];
 }
@@ -109,19 +111,20 @@
 //    [self.dynamicAnimator updateItemUsingCurrentState:self.paddleView];
 }
 
-// Calls the reset method and sets the button alpha to 0
+// Calls the reset method and sets the button and title alpha to 0
 - (IBAction)onStartButtonPressed:(UIButton *)startbutton
 {
     self.startButtonPressed = !self.startButtonPressed;
     if (self.startButtonPressed) {
         [self reset];
         self.startButton.alpha = 0.0;
+        self.gameTitle.alpha = 0.0;
     }
 }
 
 #pragma  mark - Helper methods
 
-// Resets the game by calling the createBall and createBlocksForLevel methods.
+// Resets the game by calling the createBall, createBlocksForLevel, and create paddle methods.
 -(void)reset
 {
     [self createBlocksForLevel];
@@ -139,7 +142,6 @@
             break;
         case 2:
             [self createBlocks:20];
-            NSLog(@"I ran");
             break;
         case 3:
             [self createBlocks:30];
@@ -173,6 +175,7 @@
 }
 
 
+// Creates the correct number of blocks and aligns them in rows according to the number of blocks parameter passed in.
 -(void)createBlocks:(NSInteger) blocks
 {
     NSInteger blocksPerRow = blocks / self.level;
@@ -187,7 +190,7 @@
 
         // Create a block
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brickicon"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -204,7 +207,7 @@
 
         // Create a block
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brick2"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -220,7 +223,7 @@
     while (x >= 20 && x < 30 && x < blocks)
     {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brickicon"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -235,7 +238,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 30 && x < 40 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brick2"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -250,7 +253,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 40 && x < 50 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brickicon"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -265,7 +268,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 50 && x < 60 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brick2"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -280,7 +283,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 60 && x < 70 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brickicon"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -295,7 +298,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 70 && x < 80 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brick2"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -310,7 +313,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 80 && x < 90 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brickicon"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -325,7 +328,7 @@
     verticalOffset = verticalOffset + margin + height;
     while (x >= 90 && x < 100 && x < blocks) {
         BlockView *blockView = [[BlockView alloc] initWithFrame:CGRectMake(lateralOffset, verticalOffset, width, height)];
-        blockView.backgroundColor = [UIColor greenColor];
+        [blockView setImage:[UIImage imageNamed:@"brick2"]];
         blockView.tag = 1;
 
         [self.view addSubview:blockView];
@@ -358,6 +361,8 @@
     [self removeBall];
     [self removePaddle];
     self.startButton.alpha = 1.0;
+    self.gameTitle.alpha = 1.0;
+
 }
 
 // Displays an alert showing the player beat the level and increments the level integer by 1.
@@ -370,8 +375,9 @@
     [self removeBall];
     [self removePaddle];
     self.startButton.alpha = 1.0;
+    self.gameTitle.alpha = 1.0;
     self.level = self.level + 1;
-    self.ballDensity = self.ballDensity - 0.3;
+    self.ballDensity = self.ballDensity - 0.1;
     self.paddleWidth = self.paddleWidth - 10;
 }
 
@@ -385,8 +391,9 @@
     [self removeBall];
     [self removePaddle];
     self.startButton.alpha = 1.0;
+    self.gameTitle.alpha = 1.0;
     self.level = 1;
-    self.ballDensity = 5.0;
+    self.ballDensity = 2.5;
     self.paddleWidth = 150;
 }
 
@@ -415,9 +422,9 @@
 -(void)createBall
 {
     self.ballView = [[BallView alloc] initWithFrame:CGRectMake(160, 280, 10, 10)];
-    self.ballView.backgroundColor = [UIColor redColor];
     self.ballView.tag = 2;
-    [self setRoundedView:self.ballView toDiameter:15];
+    [self.ballView setImage:[UIImage imageNamed:@"ball"]];
+    [self setRoundedView:self.ballView toDiameter:25];
 
     [self.view addSubview:self.ballView];
 
@@ -452,10 +459,11 @@
     self.ballView.center = CGPointMake(160, 280);
 }
 
+// Creates a paddle when the game begins.
 -(void)createPaddle
 {
     self.paddleView = [[PaddleView alloc] initWithFrame:CGRectMake(160 - (self.paddleWidth/2), 543, self.paddleWidth, 20)];
-    self.paddleView.backgroundColor = [UIColor orangeColor];
+    self.paddleView.backgroundColor = [UIColor redColor];
     self.paddleView.tag = 0;
 
     [self.view addSubview:self.paddleView];
@@ -468,6 +476,7 @@
     [self.dynamicAnimator addBehavior:self.dynamicItemBehaviorPaddle];
 }
 
+// Removes the paddle when the game ends.
 -(void)removePaddle
 {
     [self.collisionBehavior removeItem:self.paddleView];
